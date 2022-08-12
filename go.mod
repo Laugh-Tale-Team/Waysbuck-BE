@@ -1,4 +1,4 @@
-module 
+module waysbuck
 
 go 1.18
 
