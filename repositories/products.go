@@ -1,7 +1,6 @@
 package repositories
 
 import (
-	"time"
 	"waysbuck/models"
 
 	"gorm.io/gorm"
@@ -38,7 +37,7 @@ func (r *repository) GetProduct(ID int) (models.Product, error) {
 }
 
 func (r *repository) CreateProduct(product models.Product) (models.Product, error) {
-	err := r.db.Exec("INSERT INTO products(title,price,created_at,updated_at) VALUES (?,?,?,?)", product.Title, product.Price, time.Now(), time.Now()).Error
+	err := r.db.Create(&product).Error
 
 	return product, err
 }

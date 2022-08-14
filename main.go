@@ -23,7 +23,13 @@ func main() {
 	// 	w.Header().Set("Content-Type", "application/json")
 	// 	w.WriteHeader(http.StatusOK)
 	// }).Methods("GET")
+	// errEnv := godotenv.Load()
+	// if errEnv != nil {
+	// 	panic("Failed to load env file")
+	// }
 	routes.RouteInit(r.PathPrefix("/api/v1").Subrouter())
+
+	r.PathPrefix("/uploads").Handler(http.StripPrefix("/uploads/", http.FileServer(http.Dir("./uploads"))))
 
 	fmt.Println("server running localhost:5000")
 	http.ListenAndServe("localhost:5000", r)
