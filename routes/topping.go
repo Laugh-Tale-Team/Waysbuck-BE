@@ -2,6 +2,7 @@ package routes
 
 import (
 	"waysbuck/handlers"
+	"waysbuck/pkg/middleware"
 	"waysbuck/pkg/mysql"
 	"waysbuck/repositories"
 
@@ -12,9 +13,9 @@ func ToppingRoutes(r *mux.Router) {
 	toppingRepository := repositories.RepositoryProduct(mysql.DB)
 	h := handlers.HandlerTopping(toppingRepository)
 
-	r.HandleFunc("/toppings", h.FindToppings).Methods("GET")
-	r.HandleFunc("/topping/{id}", h.GetTopping).Methods("GET")
-	r.HandleFunc("/topping", h.CreateTopping).Methods("POST")
-	r.HandleFunc("/topping/{id}", h.UpdateTopping).Methods("PATCH")
-	r.HandleFunc("/topping/{id}", h.DeleteTopping).Methods("DELETE")
+	r.HandleFunc("/toppings", middleware.Auth(h.FindToppings)).Methods("GET")
+	r.HandleFunc("/topping/{id}", middleware.Auth(h.GetTopping)).Methods("GET")
+	r.HandleFunc("/topping", middleware.Auth(h.CreateTopping)).Methods("POST")
+	r.HandleFunc("/topping/{id}", middleware.Auth(h.UpdateTopping)).Methods("PATCH")
+	r.HandleFunc("/topping/{id}", middleware.Auth(h.DeleteTopping)).Methods("DELETE")
 }

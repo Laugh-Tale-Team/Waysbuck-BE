@@ -6,7 +6,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-var SecretKey ="SECRET_KEY"
+var SecretKey = "SECRET_KEY"
 
 func GenerateToken(claims *jwt.MapClaims) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -20,10 +20,10 @@ func GenerateToken(claims *jwt.MapClaims) (string, error) {
 
 func VerifyToken(tokenString string) (*jwt.Token, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		if _, isValid := token.Method.(*jwt.SigningMethodHMAC); !isValid{
+		if _, isValid := token.Method.(*jwt.SigningMethodHMAC); !isValid {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
-		return []byte(SecretKey),nil
+		return []byte(SecretKey), nil
 	})
 	if err != nil {
 		return nil, err

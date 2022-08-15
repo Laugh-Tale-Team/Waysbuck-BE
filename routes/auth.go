@@ -1,6 +1,7 @@
 package routes
 
 import (
+	// "waysbuck/handlers"
 	"waysbuck/handlers"
 	"waysbuck/pkg/mysql"
 	"waysbuck/repositories"
@@ -8,7 +9,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func AuthRoutes (r *mux.Router) {
+func AuthRoutes(r *mux.Router) {
 	userRepository := repositories.RepositoryUser(mysql.DB)
 	h := handlers.HandlerAuth(userRepository)
 

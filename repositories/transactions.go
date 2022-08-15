@@ -1,7 +1,9 @@
 package repositories
 
 import (
-	"waysbucks/models"
+	// "waysbucks/models"
+
+	"waysbuck/models"
 
 	"gorm.io/gorm"
 )

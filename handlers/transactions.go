@@ -4,10 +4,16 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-	dto "waysbucks/dto/result"
-	transactiondto "waysbucks/dto/transaction"
-	"waysbucks/models"
-	"waysbucks/repositories"
+	dto "waysbuck/dto/result"
+	transactiondto "waysbuck/dto/transaction"
+	"waysbuck/models"
+	"waysbuck/repositories"
+
+	// transactiondto "waysbucks/dto/transaction"
+
+	// dto "waysbucks/dto/result"
+	// "waysbucks/models"
+	// "waysbucks/repositories"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
@@ -32,7 +38,7 @@ func (h *handlerTransaction) FindTransactions(w http.ResponseWriter, r *http.Req
 	}
 
 	w.WriteHeader(http.StatusOK)
-	response := dto.SuccessResult{Code: "Success", Data: transactions}
+	response := dto.SuccessResult{Code: http.StatusOK, Data: transactions}
 	json.NewEncoder(w).Encode(response)
 }
 
@@ -48,7 +54,7 @@ func (h *handlerTransaction) GetTransaction(w http.ResponseWriter, r *http.Reque
 	}
 
 	w.WriteHeader(http.StatusOK)
-	response := dto.SuccessResult{Code: "Success", Data: transaction}
+	response := dto.SuccessResult{Code: http.StatusOK, Data: transaction}
 	json.NewEncoder(w).Encode(response)
 }
 
@@ -84,7 +90,7 @@ func (h *handlerTransaction) CreateTransaction(w http.ResponseWriter, r *http.Re
 	}
 
 	w.WriteHeader(http.StatusOK)
-	response := dto.SuccessResult{Code: "Success", Data: data}
+	response := dto.SuccessResult{Code: http.StatusOK, Data: data}
 	json.NewEncoder(w).Encode(response)
 }
 
@@ -126,7 +132,7 @@ func (h *handlerTransaction) UpdateTransaction(w http.ResponseWriter, r *http.Re
 	}
 
 	w.WriteHeader(http.StatusOK)
-	response := dto.SuccessResult{Code: "Success", Data: data}
+	response := dto.SuccessResult{Code: http.StatusOK, Data: data}
 	json.NewEncoder(w).Encode(response)
 }
 
@@ -148,6 +154,6 @@ func (h handlerTransaction) DeleteTransaction(w http.ResponseWriter, r *http.Req
 	}
 
 	w.WriteHeader(http.StatusOK)
-	response := dto.SuccessResult{Code: "Success", Data: data}
+	response := dto.SuccessResult{Code: http.StatusOK, Data: data}
 	json.NewEncoder(w).Encode(response)
 }
