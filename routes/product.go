@@ -2,6 +2,7 @@ package routes
 
 import (
 	"waysbuck/handlers"
+	"waysbuck/pkg/middleware"
 	"waysbuck/pkg/mysql"
 	"waysbuck/repositories"
 
@@ -14,4 +15,7 @@ func ProductRoutes(r *mux.Router) {
 
 	r.HandleFunc("/products", h.FindProducts).Methods("GET")
 	r.HandleFunc("/product/{id}", h.GetProduct).Methods("GET")
+	r.HandleFunc("/product", middleware.UploadFile(h.CreateProduct)).Methods("POST")
+	r.HandleFunc("/product/{id}", h.UpdateProduct).Methods("PATCH")
+	r.HandleFunc("/product/{id}", h.DeleteProduct).Methods("DELETE")
 }

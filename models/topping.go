@@ -3,7 +3,7 @@ package models
 import "time"
 
 // Product model struct
-type Product struct {
+type Topping struct {
 	ID        int       `json:"id"`
 	Title     string    `json:"title" gorm:"type: varchar(255)"`
 	Price     int    `json:"price" gorm:"type: int"`
