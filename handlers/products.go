@@ -68,9 +68,10 @@ func (h *handlerProduct) CreateProduct(w http.ResponseWriter, r *http.Request) {
   	filename := dataContex.(string) // add this code
 
 	price, _ := strconv.Atoi(r.FormValue("price"))
-	request := productsdto.CreateProduct{
+	request := productsdto.ProductRequest{
 		Title : r.FormValue("title"),
 		Price: price,
+		Image: filename,
 	}
 	// request := new(productsdto.ProductRequest)
 	// if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
@@ -113,10 +114,22 @@ func (h *handlerProduct) CreateProduct(w http.ResponseWriter, r *http.Request) {
 func (h *handlerProduct) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type","application/json")
 
-	request := new(productsdto.UpdateProduct)
-	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		response := dto.ErrorResult{Code: http.StatusBadRequest,Message: err.Error()}
+	dataContex := r.Context().Value("dataFile") // add this code
+	filename := dataContex.(string)             // add this code
+
+	price, _ := strconv.Atoi(r.FormValue("price"))
+	
+	request := productsdto.UpdateProduct{
+		Title: r.FormValue("title"),
+		Price: price,
+		Image: filename,
+	}
+
+	validation := validator.New()
+	err := validation.Struct(request)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		response := dto.ErrorResult{Code: http.StatusInternalServerError,Message: err.Error()}
 		json.NewEncoder(w).Encode(response)
 		return
 	}
@@ -137,11 +150,11 @@ func (h *handlerProduct) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 		product.Price =request.Price
 	}
 
-	if request.Image != "" {
+	if filename != "false" {
 		product.Image = request.Image
 	}
 
-	data, err := h.ProductRepository.UpdateProduct(product)
+	product, err = h.ProductRepository.UpdateProduct(product)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		response := dto.ErrorResult{Code: http.StatusInternalServerError,Message: err.Error()}
@@ -149,7 +162,7 @@ func (h *handlerProduct) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	response := dto.SuccessResult{Code: http.StatusOK, Data: convertResponseProduct(data)}
+	response := dto.SuccessResult{Code: http.StatusOK, Data: convertResponseProduct(product)}
 	json.NewEncoder(w).Encode(response)
 }
 
@@ -175,8 +188,9 @@ func (h *handlerProduct) DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-func convertResponseProduct(u models.Product) productsdto.ProductRequest {
-	return productsdto.ProductRequest{
+func convertResponseProduct(u models.Product) productsdto.ProductResponse {
+	return productsdto.ProductResponse{
+		ID: u.ID,
 		Title: u.Title,
 		Price: u.Price,
 		Image: u.Image,

@@ -1,6 +1,6 @@
 package toppingstdo
 
-type ToppingRequest struct {
+type ToppingResponse struct {
 	ID    int    `json:"id"`
 	Title string `json:"title" form:"title" validate:"required"`
 	Price int    `json:"price" form:"price" gorm:"type: int" validate:"required"`

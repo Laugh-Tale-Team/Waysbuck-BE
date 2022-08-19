@@ -44,7 +44,11 @@ func convertResponseProfile(u models.Profile) profiledto.ProfileResponse{
 		ID:			u.ID,
 		Fullname:	u.Fullname,
 		Image:		u.Image,
+		Address:	u.Address,
+		PostalCode:	u.PostalCode,
+		City:		u.City,
+		Phone:	 	u.Phone,
 		UserID: 	u.UserID,
-		User: 		u.User,
+		// User: 		u.User,
 	}
 }
